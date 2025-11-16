@@ -1,15 +1,26 @@
 // src/routers/index.js
 import { createBrowserRouter } from "react-router-dom";
+
+import HomePageLayout from "../layouts/HomePageLayout";
+import ShoppingListLayout from "../layouts/ShoppingListLayout";
+
 import ShoppingListPage from "../pages/ShoppingListPage";
+import  HomePage  from "../pages/HomePage";
 
 const router = createBrowserRouter([
   {
-    path: "/list",
-    element: <ShoppingListPage />, // ← JSX (correct)
+    path: "/",
+    element: <HomePageLayout />,
+    children: [
+      {index: true, element: <HomePage />}
+    ]
   },
   {
-    path: "/",
-    element: <div>Hello World</div>, // ← JSX (correct)
+    path: "/list/:listId",
+    element: <ShoppingListLayout />,
+    children: [
+      {index: true, element: <ShoppingListPage />}
+    ]
   },
 ]);
 

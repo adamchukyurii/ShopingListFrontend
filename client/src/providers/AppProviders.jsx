@@ -1,14 +1,11 @@
-// src/providers/AppProviders.jsx
 import { RouterProvider } from 'react-router-dom';
-import  router  from '../routers/index';
-import ShoppingListProvider from '../context/ShoppingListContext';
+import router from '../routers';
+import HomePageProvider from './HomePageProvider';
 
-function AppProviders() {
+export default function AppProviders() {
   return (
-    <ShoppingListProvider>
+    <HomePageProvider>
       <RouterProvider router={router} />
-    </ShoppingListProvider>
+    </HomePageProvider>
   );
 }
-
-export default AppProviders;

@@ -1,15 +1,9 @@
-import { useState } from 'react';
-import AppRoutes  from './pages';
-import UserProvider from './providers/UserProvider';
-import ShoppingListRouter  from './routers/ShoppingListRouter'
-
-
 import './App.css'
-
+import AppProviders from './providers/AppProviders';
 
 function App() {
   return (
-    <AppRoutes />
+    <AppProviders/>
   );
 }
 

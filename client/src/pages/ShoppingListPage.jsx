@@ -1,58 +1,18 @@
 // src/pages/ShoppingListDetail.jsx
-import { Link } from 'react-router-dom';
+import { Link, useOutletContext } from 'react-router-dom';
 import { useShoppingList } from '../context/useShoppingList';
 import { useState } from 'react';
+import { MenuIcon, ShareIcon, PlusIcon, TrashIcon, DotsIcon } from '../components/Icons';
 
-// === SVG Icons (unchanged + DotsIcon) ===
-const MenuIcon = () => (
-  <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-  </svg>
-);
-const ShareIcon = () => (
-  <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth={2}
-      d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
-    />
-  </svg>
-);
-const PlusIcon = () => (
-  <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-  </svg>
-);
-const TrashIcon = () => (
-  <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth={2}
-      d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V5a1 1 0 00-1-1h-4a1 1 0 00-1 1v2M9 5h6"
-    />
-  </svg>
-);
-const DotsIcon = () => (
-  <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth={2}
-      d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"
-    />
-  </svg>
-);
 
 export default function ShoppingListDetail() {
-  const { lists, addItem, toggleItem, deleteItem } = useShoppingList();
-  const list = lists[0];
+  const { list } = useOutletContext();
+  const { addItem, toggleItem, deleteItem } = useShoppingList();
   const listId = list?.id;
 
   const [newItemText, setNewItemText] = useState('');
   const [showDetail, setShowDetail] = useState(false);
-  const [hideActions, setHideActions] = useState(false); // NEW: toggle state
+  const [hideActions, setHideActions] = useState(false);
 
   if (!list) {
     return (
@@ -72,7 +32,6 @@ export default function ShoppingListDetail() {
     }
   };
 
-  // === Detail Modal with "Hide Actions" Button ===
   const DetailModal = () => {
     const today = new Date().toLocaleDateString('en-GB');
 
@@ -104,9 +63,8 @@ export default function ShoppingListDetail() {
           }}
           onClick={(e) => e.stopPropagation()}
         >
-          {/* Header */}
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-            <h2 style={{ margin: 0, fontSize: '1.25rem', fontWeight: '600' }}>Detail</h2>
+            <h2 style={{ margin: 0, fontSize: '1.25rem', fontWeight: '600', alignSelf: 'center'}}>Details</h2>
             <button
               onClick={() => setShowDetail(false)}
               style={{
@@ -117,11 +75,10 @@ export default function ShoppingListDetail() {
                 color: '#000',
               }}
             >
-              times
+              &times;
             </button>
           </div>
 
-          {/* Fields */}
           <div style={{ display: 'grid', gap: '0.75rem', fontSize: '0.95rem' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
               <span style={{ fontWeight: '600' }}>Name</span>
@@ -140,7 +97,6 @@ export default function ShoppingListDetail() {
               <span>Shopping list for Home</span>
             </div>
 
-            {/* Users – hidden when hideActions is true */}
             {!hideActions && (
               <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                 <span style={{ fontWeight: '600' }}>Users</span>
@@ -195,9 +151,7 @@ export default function ShoppingListDetail() {
             )}
           </div>
 
-          {/* Action buttons */}
           <div style={{ marginTop: '1.5rem', display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
-            {/* NEW: Hide Actions Button */}
             <button
               onClick={() => setHideActions(!hideActions)}
               style={{
@@ -215,7 +169,6 @@ export default function ShoppingListDetail() {
               {hideActions ? 'Show Actions' : 'Hide Actions'}
             </button>
 
-            {/* Edit Button – only show if not hidden */}
             {!hideActions && (
               <button
                 style={{
@@ -233,7 +186,6 @@ export default function ShoppingListDetail() {
               </button>
             )}
 
-            {/* Delete Button – only show if not hidden */}
             {!hideActions && (
               <button
                 style={{
@@ -272,7 +224,6 @@ export default function ShoppingListDetail() {
         boxSizing: 'border-box',
       }}
     >
-      {/* Header */}
       <header
         style={{
           backgroundColor: '#fff',
@@ -311,7 +262,6 @@ export default function ShoppingListDetail() {
             <ShareIcon />
           </button>
 
-          {/* Detail button */}
           <button
             onClick={() => setShowDetail(true)}
             style={{
@@ -327,7 +277,6 @@ export default function ShoppingListDetail() {
         </div>
       </header>
 
-      {/* Title */}
       <div style={{ padding: '2vw 5vw', width: '100%', maxWidth: '960px' }}>
         <h1 style={{ fontSize: 'calc(1.5rem + 1vw)', fontWeight: 'bold', color: '#111827', margin: 0 }}>
           {list.name}
@@ -337,7 +286,6 @@ export default function ShoppingListDetail() {
         </p>
       </div>
 
-      {/* Add-item row */}
       <div style={{ padding: '2vw 5vw', width: '100%', maxWidth: '960px' }}>
         <div
           style={{
@@ -381,8 +329,6 @@ export default function ShoppingListDetail() {
           </button>
         </div>
       </div>
-
-      {/* Items list */}
       <ul
         style={{
           marginTop: '1.5rem',
@@ -395,12 +341,13 @@ export default function ShoppingListDetail() {
           gap: '0.25rem',
         }}
       >
-        {list.items.length === 0 ? (
+
+        {list.products.length === 0 ? (
           <li style={{ textAlign: 'center', padding: '2rem 0', color: '#9ca3af', fontSize: '1rem' }}>
             No items yet. Tap + to add one.
           </li>
         ) : (
-          list.items.map((item) => (
+          list.products.map((item) => (
             <li
               key={item.id}
               style={{
@@ -433,11 +380,10 @@ export default function ShoppingListDetail() {
                     color: item.done ? '#9ca3af' : '#111827',
                   }}
                 >
-                  {item.text}
+                  {item.name}
                 </span>
               </label>
 
-              {/* Delete button in list – always visible (independent of modal) */}
               {item.done && (
                 <button
                   onClick={() => deleteItem(listId, item.id)}
@@ -462,7 +408,6 @@ export default function ShoppingListDetail() {
         )}
       </ul>
 
-      {/* Render modal */}
       {showDetail && <DetailModal />}
     </div>
   );
